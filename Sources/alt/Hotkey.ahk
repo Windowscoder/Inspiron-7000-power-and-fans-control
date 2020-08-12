@@ -26,11 +26,19 @@ HideTrayTip()
 IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Open
 Open:=OutputVar
 
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+
 if (Open=1)
 {
 Run C:\Program Files\DellFans\Key\ALT_1.vbs
 Run c:\Program Files\DellFans\Mode\LFan_Low_RFan_Low.exe
 Menu, Tray, Icon, C:\Program Files\DellFans\Icons\网页.ico, ,1
+if(Remind=1)
+{
+TrayTip Dell, 网页模式
+SetTimer, HideTrayTip, -3000
+}
 }
 
 if(Open=2)
@@ -38,6 +46,11 @@ if(Open=2)
 Run C:\Program Files\DellFans\Key\ALT_2.vbs
 Run c:\Program Files\DellFans\Mode\Dell_command.exe
 Menu, Tray, Icon, c:\Program Files\DellFans\Icons\视频.ico, ,1
+if(Remind=1)
+{
+TrayTip Dell, 视频模式
+SetTimer, HideTrayTip, -3000
+}
 }
 
 if(Open=3)
@@ -45,6 +58,11 @@ if(Open=3)
 Run C:\Program Files\DellFans\Key\ALT_3.vbs
 Run c:\Program Files\DellFans\Mode\Dell_command.exe
 Menu, Tray, Icon, c:\Program Files\DellFans\Icons\编程.ico, ,1
+if(Remind=1)
+{
+TrayTip Dell, 编程模式
+SetTimer, HideTrayTip, -3000
+}
 }
 
 if(Open=4)
@@ -52,6 +70,11 @@ if(Open=4)
 Run C:\Program Files\DellFans\Key\ALT_4.vbs
 Run c:\Program Files\DellFans\Mode\LFan_Max_RFan_Max.exe
 Menu, Tray, Icon, c:\Program Files\DellFans\Icons\全速.ico, ,1
+if(Remind=1)
+{
+TrayTip Dell, 全速模式
+SetTimer, HideTrayTip, -3000
+}
 }
 
 IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Auto
@@ -105,6 +128,10 @@ Menu,Auto,Add,开启,MenuHandler_open
 Menu,Auto,Add,关闭,MenuHandler_close
 Menu, Tray, Add, 自动切换散热模式,:Auto
 Menu, Tray, Add
+Menu,Remind,Add,开启,MenuHandler_on
+Menu,Remind,Add,关闭,MenuHandler_off
+Menu,Tray,Add,模式切换提醒,:Remind
+Menu,Tray,Add
 Menu,Hotkey,Add,不占用热键,MenuHandler_none
 Menu,Hotkey,Add,CTRL切换版,MenuHandler_ctrl
 Menu,Hotkey,Add,ALT切换版,MenuHandler_alt
@@ -192,6 +219,18 @@ Menu,Hotkey,Uncheck,不占用热键
 Menu,Hotkey,Uncheck,CTRL切换版
 Menu,Hotkey,Check,ALT切换版 
 }
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+D:=OutputVar
+if(D=0)
+{
+Menu,Remind,Uncheck,开启
+Menu,Remind,Check,关闭
+}
+if(D=1)
+{
+Menu,Remind,Check,开启
+Menu,Remind,Uncheck,关闭
+}
 return
 
 MenuHandler_pdf:
@@ -207,6 +246,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_1.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Low_RFan_Low.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 网页模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 MenuHandler_b:
@@ -218,6 +264,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_2.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 视频模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 MenuHandler_c:
@@ -229,6 +282,13 @@ Menu, Tray, Check, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_3.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 编程模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 MenuHandler_d:
@@ -240,6 +300,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Check, 全速
 Run C:\Program Files\DellFans\Key\ALT_4.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Max_RFan_Max.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 全速模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 MenuHandler_aa:
@@ -249,7 +316,7 @@ Menu, Open, Uncheck, 视频
 Menu, Open, Uncheck, 编程
 Menu, Open, Uncheck, 全速
 TrayTip Dell, 开机或睡眠唤醒后会自动切换到网页模式.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -5000
 return
 
 MenuHandler_bb:
@@ -259,7 +326,7 @@ Menu, Open, Check, 视频
 Menu, Open, Uncheck, 编程
 Menu, Open, Uncheck, 全速
 TrayTip Dell, 开机或睡眠唤醒后会自动切换到视频模式.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -5000
 return
 
 MenuHandler_cc:
@@ -269,7 +336,7 @@ Menu, Open, Uncheck, 视频
 Menu, Open, Check, 编程
 Menu, Open, Uncheck, 全速
 TrayTip Dell, 开机或睡眠唤醒后会自动切换到编程模式.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -5000
 return
 
 MenuHandler_dd:
@@ -279,7 +346,7 @@ Menu, Open, Uncheck, 视频
 Menu, Open, Uncheck, 编程
 Menu, Open, Check, 全速
 TrayTip Dell, 开机或睡眠唤醒后会自动切换到全速模式.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -5000
 return
 
 MenuHandler_open:
@@ -288,6 +355,7 @@ Menu,Auto,Check,开启
 Menu,Auto,Uncheck,关闭 
 Run C:\Intel\Auto.ini
 TrayTip Dell,已经开启自动切换功能，重启或注销重新登陆即生效，请确保已自行设定配置文件.
+SetTimer, HideTrayTip, -8000
 return
 
 MenuHandler_close:
@@ -295,6 +363,23 @@ IniWrite, 0, C:\Program Files\DellFans\DellFans.ini, DellFans, Auto
 Menu,Auto,Uncheck,开启
 Menu,Auto,Check,关闭 
 TrayTip Dell, 已经关闭自动切换功能，重启或注销重新登陆即生效.
+SetTimer, HideTrayTip, -8000
+return
+
+MenuHandler_on:
+IniWrite, 1, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Menu,Remind,Check,开启
+Menu,Remind,Uncheck,关闭
+TrayTip Dell, 已开启模式切换提醒.
+SetTimer, HideTrayTip, -5000
+return
+
+MenuHandler_off:
+IniWrite, 0, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Menu,Remind,Uncheck,开启
+Menu,Remind,Check,关闭
+TrayTip Dell,已关闭模式切换提醒.
+SetTimer, HideTrayTip, -5000
 return
 
 MenuHandler_none:
@@ -304,7 +389,7 @@ Menu,Hotkey,Uncheck,CTRL切换版
 Menu,Hotkey,Uncheck,ALT切换版 
 Run C:\Program Files\DellFans\None\None.bat
 TrayTip Dell, 已设定为无热键占用，重启或注销重新登陆即生效.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -6000
 return
 
 MenuHandler_ctrl:
@@ -314,7 +399,7 @@ Menu,Hotkey,Check,CTRL切换版
 Menu,Hotkey,Uncheck,ALT切换版
 Run C:\Program Files\DellFans\ctrl\CTRL.bat
 TrayTip Dell, 已设定为CTRL+数字切换，重启或注销重新登陆即生效.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -6000
 return
 
 MenuHandler_alt:
@@ -324,7 +409,7 @@ Menu,Hotkey,Uncheck,CTRL切换版
 Menu,Hotkey,Check,ALT切换版
 Run C:\Program Files\DellFans\alt\ALT.bat
 TrayTip Dell, 已设定为ALT+数字切换，重启或注销重新登陆即生效.
-SetTimer, HideTrayTip, -3000
+SetTimer, HideTrayTip, -6000
 return
 
 !1::
@@ -336,6 +421,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_1.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Low_RFan_Low.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 网页模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 !2::
@@ -347,6 +439,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_2.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 视频模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 !3::
@@ -358,6 +457,13 @@ Menu, Tray, Check, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_3.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 编程模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 !4::
@@ -369,6 +475,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Check, 全速
 Run C:\Program Files\DellFans\Key\ALT_4.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Max_RFan_Max.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 全速模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 ^!F9::
@@ -380,6 +493,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_1.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Low_RFan_Low.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 网页模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 ^+F9::
@@ -391,6 +511,13 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_2.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 视频模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 !+F9::
@@ -402,6 +529,13 @@ Menu, Tray, Check, 编程
 Menu, Tray, Uncheck, 全速
 Run C:\Program Files\DellFans\Key\ALT_3.vbs
 Run C:\Program Files\DellFans\Mode\Dell_command.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 编程模式
+SetTimer, HideTrayTip, -3000
+}
 return
 
 ^!+F9::
@@ -413,4 +547,11 @@ Menu, Tray, Uncheck, 编程
 Menu, Tray, Check, 全速
 Run C:\Program Files\DellFans\Key\ALT_4.vbs
 Run C:\Program Files\DellFans\Mode\LFan_Max_RFan_Max.exe
+IniRead, OutputVar, C:\Program Files\DellFans\DellFans.ini, DellFans, Remind
+Remind:=OutputVar
+if(Remind=1)
+{
+TrayTip Dell, 全速模式
+SetTimer, HideTrayTip, -3000
+}
 return
